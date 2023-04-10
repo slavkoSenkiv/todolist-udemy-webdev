@@ -6,13 +6,10 @@ app.get('/', function(req, res){
     var currentDay = today.getDay();
 
     if (currentDay === 6 || currentDay === 0){
-        res.write('<h1>yey, its weeekend</h1>');
-        res.write('<p>feel every minute of it<p>');
+        res.sendFile(__dirname + '/index.html');
     } else {
-        res.write('<h1>' + (7 - today) + ' days too wait till weekend</h1>');
-        res.write('<p>the weekend is comming <p>');
+        res.sendFile(__dirname + '/index.html');
     }
-    res.send();
 });
 
 app.listen(3000, function(){
