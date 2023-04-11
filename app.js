@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-
+app.use(express.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res){
@@ -15,6 +15,10 @@ app.get('/', function(req, res){
     var currentDay = today.toLocaleDateString('en-US', options);
  
     res.render('list', {currentDay: currentDay});
+});
+
+app.post('/', function(req, res){
+    var newTask = req.body.newTask;
 });
 
 app.listen(3000, function(){
