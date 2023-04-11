@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 app.use(express.urlencoded({extended:true}));
 
-var newTask = '';
+var newTasksLst = ['buy food', 'cook food', 'eat food'];
 
 app.set('view engine', 'ejs');
 
@@ -18,11 +18,12 @@ app.get('/', function(req, res){
 
     var currentDay = today.toLocaleDateString('en-US', options);
  
-    res.render('list', {currentDay: currentDay, newListItem: newTask});
+    res.render('list', {currentDay: currentDay, newTasksLst: newTasksLst});
 });
 
 app.post('/', function(req, res){
-    newTask = req.body.newTask;
+    var newTask = req.body.newTask;
+    newTasksLst.push(newTask);
     res.redirect('/');
 });
 
