@@ -1,28 +1,29 @@
 const express = require('express');
 const app = express();
 app.use(express.urlencoded({extended:true}));
+app.use(express.static('public'));
 
-var newTasksLst = ['buy food', 'cook food', 'eat food'];
+let newTasksLst = ['buy food', 'cook food', 'eat food'];
 
 app.set('view engine', 'ejs');
 
 
 app.get('/', function(req, res){
-    var today = new Date();
+    const today = new Date();
 
-    var options = {
+    const options = {
         weekday: 'long',
         day: 'numeric',
         month: 'long'
     };
 
-    var currentDay = today.toLocaleDateString('en-US', options);
+    const currentDay = today.toLocaleDateString('en-US', options);
  
     res.render('list', {currentDay: currentDay, newTasksLst: newTasksLst});
 });
 
 app.post('/', function(req, res){
-    var newTask = req.body.newTask;
+    const newTask = req.body.newTask;
     newTasksLst.push(newTask);
     res.redirect('/');
 });
