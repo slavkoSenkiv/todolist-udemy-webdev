@@ -8,17 +8,22 @@
     <title>Document</title>
 </head>
 <body>
-    <h1><%= currentDay %> Todo List</h1>  
-    <ul>
+    <div class="box" id="heading">
+        <h1><%= currentDay %> Todo List</h1>  
+    </div>
+
+    <div class="box">        
         <% for (i=0; i < newTasksLst.length; i++){ %>
-            <li><%= newTasksLst[i] %></li>
+            <div class="item">
+                <input type="checkbox">
+                <p><%= newTasksLst[i] %></p>
+            </div>
         <% } %>
-        <li>
-            <form action="/" method="post">
-                <input type="text" name="newTask" style="width: 75px;">
-                <button type="submit">Add</button>
-            </form>
-        </li>
-    </ul>
+        
+        <form action="/" method="post" class="item">
+            <input type="text" name="newTask" placeholder="new task">
+            <button type="submit">+</button>
+        </form>
+    </div>
 </body>
 </html> 
