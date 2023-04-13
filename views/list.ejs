@@ -19,14 +19,9 @@
                 <p><%= tasksLst[i] %></p>
             </div>
         <% } %>
-        
-        <% if (taskListType === 'Work | '){ %>
-            <form action='/work' method="post" class="item">
-        <% }else{ %>
             <form action='/' method="post" class="item">
-        <% } %>
                 <input type="text" name="newTask" placeholder="new task" autocomplete="off">
-                <button type="submit">+</button>
+                <button type="submit" name="plusButton" value=<%= taskListType %>>+</button>
             </form>
     </div>
 </body>
