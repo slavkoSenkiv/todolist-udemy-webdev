@@ -12,8 +12,7 @@ const today = new Date();
 const options = {
     weekday: 'short',
     day: 'numeric',
-    month: 'short'
-}
+    month: 'short'}
 const taskListDate = today.toLocaleDateString('en-US', options);
 
 app.get('/', function(req, res){
@@ -21,38 +20,32 @@ app.get('/', function(req, res){
     res.render('list', {
         taskListType: taskListType, 
         taskListDate: taskListDate, 
-        tasksLst: personalTasksLst});
+        tasksLst: personalTasksLst,
+        route: '/'});
 });
+
+app.post('/', function(req, res){
+    let newTask = req.body.newTask;
+    personalTasksLst.push(newTask);
+    res.redirect('/');
+}); 
 
 app.get('/work', function(req, res){
     const taskListType = 'Work';
     res.render('list', {
         taskListType: taskListType, 
         taskListDate: taskListDate, 
-        tasksLst: workTasksLst});
+        tasksLst: workTasksLst,
+        route: '/work'});
     });
 
-app.post('/', function(req, res){
-    let newTask = req.body.newTask;
-
-    if(req.body.plusButton === 'Work'){
-        workTasksLst.push(newTask);
-        res.redirect('/work');
-    }else{
-        personalTasksLst.push(newTask);
-        res.redirect('/')
-    }
-
-});
-
-    
-/* app.post('/work', function(req, res){
-    console.log(req.body.plusButtonValue);
+app.post('/work', function(req, res){
     let newTask = req.body.newTask;
     workTasksLst.push(newTask);
     res.redirect('/work');
-});
- */
+}); 
+
+
 app.listen(3000, function(){
     console.log('server is up and listening to port 3000');
 });

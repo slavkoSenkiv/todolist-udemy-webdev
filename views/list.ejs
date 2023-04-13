@@ -19,9 +19,9 @@
                 <p><%= tasksLst[i] %></p>
             </div>
         <% } %>
-            <form action='/' method="post" class="item">
+            <form action=' <%= route %> ' method="post" class="item">
                 <input type="text" name="newTask" placeholder="new task" autocomplete="off">
-                <button type="submit" name="plusButton" value=<%= taskListType %>>+</button>
+                <button type="submit">+</button>
             </form>
     </div>
 </body>
