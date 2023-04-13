@@ -9,39 +9,39 @@ let personalTasksLst = ['buy food', 'cook food', 'eat food'];
 let workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
 
 const today = new Date();
-
 const options = {
     weekday: 'short',
     day: 'numeric',
     month: 'short'
 };
-
 const taskListDate = today.toLocaleDateString('en-US', options);
-
-
-
 
 app.get('/', function(req, res){
     const taskListType = 'Personal | ';
-    res.render('list', {taskListType: taskListType, taskListDate: taskListDate, tasksLst: personalTasksLst});
-
-});
-
-app.get('/work', function(req, res){
-    const taskListType = 'Work | ';
-
-    res.render('list', {taskListType: taskListType, taskListDate: taskListDate, tasksLst: workTasksLst});
-
+    res.render('list', {
+        taskListType: taskListType, 
+        taskListDate: taskListDate, 
+        tasksLst: personalTasksLst});
 });
 
 app.post('/', function(req, res){
-    const newTask = req.body.newTask;
+    console.log(req.body);
+    let newTask = req.body.newTask;
     personalTasksLst.push(newTask);
     res.redirect('/');
 });
 
+app.get('/work', function(req, res){
+    const taskListType = 'Work | ';
+    res.render('list', {
+        taskListType: taskListType, 
+        taskListDate: taskListDate, 
+        tasksLst: workTasksLst});
+    });
+    
 app.post('/work', function(req, res){
-    const newTask = req.body.newTask;
+    console.log(req.body);
+    let newTask = req.body.newTask;
     workTasksLst.push(newTask);
     res.redirect('/work');
 });
