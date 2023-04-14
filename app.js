@@ -16,9 +16,8 @@ const options = {
 const taskListDate = today.toLocaleDateString('en-US', options);
 
 app.get('/', function(req, res){
-    const taskListType = 'Personal';
     res.render('list', {
-        taskListType: taskListType, 
+        taskListType: 'Personal', 
         taskListDate: taskListDate, 
         tasksLst: personalTasksLst,
         route: '/'});
@@ -31,9 +30,8 @@ app.post('/', function(req, res){
 }); 
 
 app.get('/work', function(req, res){
-    const taskListType = 'Work';
     res.render('list', {
-        taskListType: taskListType, 
+        taskListType: 'Work', 
         taskListDate: taskListDate, 
         tasksLst: workTasksLst,
         route: '/work'});
@@ -44,6 +42,13 @@ app.post('/work', function(req, res){
     workTasksLst.push(newTask);
     res.redirect('/work');
 }); 
+
+app.get('/about', function(req, res){
+    res.render('about', {
+        taskListType: 'About',
+        taskListDate: taskListDate
+    });
+});
 
 
 app.listen(3000, function(){
