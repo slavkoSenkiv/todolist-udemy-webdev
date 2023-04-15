@@ -1,24 +1,20 @@
 const express = require('express');
+const date = require(__dirname + '/date.js');
 const app = express();
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
+console.log(date());
 
 let personalTasksLst = ['buy food', 'cook food', 'eat food'];
 let workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
 
-const today = new Date();
-const options = {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short'}
-const taskListDate = today.toLocaleDateString('en-US', options);
 
 app.get('/', function(req, res){
     res.render('list', {
         taskListType: 'Personal', 
-        taskListDate: taskListDate, 
+        taskListDate: date(), 
         tasksLst: personalTasksLst,
         route: '/'});
 });
@@ -32,7 +28,7 @@ app.post('/', function(req, res){
 app.get('/work', function(req, res){
     res.render('list', {
         taskListType: 'Work', 
-        taskListDate: taskListDate, 
+        taskListDate: date(), 
         tasksLst: workTasksLst,
         route: '/work'});
     });
@@ -46,7 +42,7 @@ app.post('/work', function(req, res){
 app.get('/about', function(req, res){
     res.render('about', {
         taskListType: 'About',
-        taskListDate: taskListDate
+        taskListDate: date()
     });
 });
 
