@@ -1,11 +1,11 @@
 const express = require('express');
 const date = require(__dirname + '/date.js');
+const longDate = date.getDate();
+const dayOfWeek = date.getDayOfWeek();
 const app = express();
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
-
-console.log(date());
 
 let personalTasksLst = ['buy food', 'cook food', 'eat food'];
 let workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
@@ -14,7 +14,7 @@ let workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
 app.get('/', function(req, res){
     res.render('list', {
         taskListType: 'Personal', 
-        taskListDate: date(), 
+        taskListDate: longDate, 
         tasksLst: personalTasksLst,
         route: '/'});
 });
@@ -28,7 +28,7 @@ app.post('/', function(req, res){
 app.get('/work', function(req, res){
     res.render('list', {
         taskListType: 'Work', 
-        taskListDate: date(), 
+        taskListDate: dayOfWeek, 
         tasksLst: workTasksLst,
         route: '/work'});
     });
