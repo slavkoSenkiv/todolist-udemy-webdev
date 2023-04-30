@@ -21,21 +21,7 @@ app.get('/users', (req, res)=>{
         res.send(results.rows);
     });
 });
-
-
-
-
-const defTaskOne = new Task ({
-    name: 'Welcome to your todo list'
-});
-const defTaskTwo = new Task ({
-    name: 'Hit + button to add new task'
-});
-const defTaskThree = new Task ({
-    name: '<-- Hit this to delete an item'
-});
-
-const newTasks = [defTaskOne, defTaskTwo, defTaskThree];
+    
 
 
 
