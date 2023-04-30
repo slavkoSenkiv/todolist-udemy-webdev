@@ -3,13 +3,25 @@ const express = require('express');
 const app = express();
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
-
+app.set('view engine', 'ejs');
 
 //custom module date boilerplate
 const date = require(__dirname + '/date.js');
 const longDate = date.getDate();
 const dayOfWeek = date.getDayOfWeek();
-app.set('view engine', 'ejs');
+
+// pg boilerplate
+const pool  = require('./db');
+
+app.get('/users', (req, res)=>{
+    pool.query('SELECT * FROM users', (error, results) => {
+        if (error) {
+            throw error;
+        }
+        res.send(results.rows);
+    });
+});
+
 
 
 
