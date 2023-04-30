@@ -23,12 +23,14 @@ app.get('/users', (req, res)=>{
 });
     
 
+const personalTasksLst = ['buy food', 'cook food', 'eat food'];
+const workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
 
 
 app.get('/', function(req, res){
     res.render('list', {
         taskListType: 'Personal', 
-        taskListDate: 'Today', 
+        taskListDate: longDate, 
         tasksLst: personalTasksLst,
         route: '/'});
 });
@@ -42,7 +44,7 @@ app.post('/', function(req, res){
 app.get('/work', function(req, res){
     res.render('list', {
         taskListType: 'Work', 
-        taskListDate: 'Today', 
+        taskListDate: dayOfWeek, 
         tasksLst: workTasksLst,
         route: '/work'});
     });
@@ -56,7 +58,7 @@ app.post('/work', function(req, res){
 app.get('/about', function(req, res){
     res.render('about', {
         taskListType: 'About',
-        taskListDate: date()
+        taskListDate: dayOfWeek
     });
 });
 
