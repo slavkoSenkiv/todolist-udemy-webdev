@@ -5,7 +5,7 @@ exports.getDate = function(){
     const options = {
         weekday: 'short',
         day: 'numeric',
-        month: 'short'}
+        month: 'short'};
 
     return today.toLocaleDateString('en-US', options);
 };
@@ -14,9 +14,7 @@ exports.getDayOfWeek = function (){
 
     const today = new Date();
 
-    const options = {
-        weekday: 'long',
-}
+    const options = {weekday: 'long'};
 
     return today.toLocaleDateString('en-US', options);
 };

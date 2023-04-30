@@ -1,20 +1,36 @@
+//express boilerplate
 const express = require('express');
-const date = require(__dirname + '/date.js');
-const longDate = date.getDate();
-const dayOfWeek = date.getDayOfWeek();
 const app = express();
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
+
+//custom module date boilerplate
+const date = require(__dirname + '/date.js');
+const longDate = date.getDate();
+const dayOfWeek = date.getDayOfWeek();
 app.set('view engine', 'ejs');
 
-let personalTasksLst = ['buy food', 'cook food', 'eat food'];
-let workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
+//mongoose boilerplate
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/todolistDB');
+const taskSchema = new mongoose.Schema ({name: {type: String, required: true}});
+const Task = mongoose.model('Task', taskSchema);
+
+const defTaskOne = new Task ({
+    name: 'Welcome to your todo list'
+});
+const defTaskTwo = new Task ({
+    name: 'Hit + button to add new task'
+});
+const defTaskThree = new Task ({
+    name: '<-- Hit  to delete an item'
+});
 
 
 app.get('/', function(req, res){
     res.render('list', {
         taskListType: 'Personal', 
-        taskListDate: longDate, 
+        taskListDate: 'Today', 
         tasksLst: personalTasksLst,
         route: '/'});
 });
@@ -28,7 +44,7 @@ app.post('/', function(req, res){
 app.get('/work', function(req, res){
     res.render('list', {
         taskListType: 'Work', 
-        taskListDate: dayOfWeek, 
+        taskListDate: 'Today', 
         tasksLst: workTasksLst,
         route: '/work'});
     });
