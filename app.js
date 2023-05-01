@@ -10,24 +10,31 @@ const date = require(__dirname + '/date.js');
 const longDate = date.getDate();
 const dayOfWeek = date.getDayOfWeek();
 
-
 //sequelize
-const { Sequelize } = require('sequelize');
-const UserModel = require('./sequilize_models/user');
-const sequelize = new Sequelize( 'todolist', 
-    'postgres', 
-    'pass', 
-    {
-        host: 'localhost',
-        dialect: 'postgres'
-    });
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('sequelize');
 
+const User = sequelize.define('users', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+});
 
+async function getUsers() {
+  const users = await User.findAll();
+  console.log(users);
+}
 
+getUsers(); 
 
+//http 
 let personalTasksLst = ['buy food', 'cook food', 'eat food'];
 let workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
-
 
 app.get('/', function(req, res){
     res.render('list', {
@@ -63,7 +70,6 @@ app.get('/about', function(req, res){
         taskListDate: date()
     });
 });
-
 
 app.listen(3000, function(){
     console.log('server is up and listening to port 3000');
