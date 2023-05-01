@@ -18,11 +18,28 @@ app.get('/users', (req, res)=>{
         if (error) {
             throw error;
         }
-        res.send(results.rows);
     });
 });
-    
 
+/* pool.query("INSERT INTO users (id, name) VALUES (3, 'Aen');", (error, results) => {
+  if (error) {
+    throw error;
+  }
+}); */
+
+/* pool.query("delete from users where id = 3;", (error, results) => {
+  if (error) {
+    throw error;
+  } 
+});
+ */
+pool.query("update users set name = 'Den' where id = 3;", (error) => {
+  if (error) {
+    throw error;
+  } 
+});
+
+//http
 const personalTasksLst = ['buy food', 'cook food', 'eat food'];
 const workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
 
