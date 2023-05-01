@@ -1,11 +1,29 @@
+//express
 const express = require('express');
-const date = require(__dirname + '/date.js');
-const longDate = date.getDate();
-const dayOfWeek = date.getDayOfWeek();
 const app = express();
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
+
+//date
+const date = require(__dirname + '/date.js');
+const longDate = date.getDate();
+const dayOfWeek = date.getDayOfWeek();
+
+
+//sequelize
+const { Sequelize } = require('sequelize');
+const UserModel = require('./sequilize_models/user');
+const sequelize = new Sequelize( 'todolist', 
+    'postgres', 
+    'pass', 
+    {
+        host: 'localhost',
+        dialect: 'postgres'
+    });
+
+
+
 
 let personalTasksLst = ['buy food', 'cook food', 'eat food'];
 let workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
