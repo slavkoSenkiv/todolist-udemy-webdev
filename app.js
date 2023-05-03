@@ -21,13 +21,7 @@ const db = new Client({
 });
 db.connect();
 
-/* app.get('/users', (req, res)=>{
-    db.query('SELECT * FROM users', (error, results) => {
-        if (error) {
-            throw error;
-        }
-    });
-}); */
+//test queries
 /* db.query("INSERT INTO users (id, name) VALUES (3, 'Aen');", (error, results) => {
   if (error) {
     throw error;
@@ -44,7 +38,6 @@ db.connect();
     throw error;
   } 
 }); */
-
 // create table
 /* const createTableQuery = `CREATE TABLE IF NOT EXISTS tasks (id SERIAL PRIMARY KEY, task_name VARCHAR(50));`;
 db.query(createTableQuery, (err, res)=>{
@@ -56,7 +49,6 @@ db.query(createTableQuery, (err, res)=>{
   console.log('table created successfully');
   db.end();
 }); */
-
 //insert into table
 /* const taskOne = "'Welcome to yout todo list'";
 const taskTwo = "'Hit the + button to add new tasks'";
@@ -72,9 +64,8 @@ db.query(insertQuery, (err, res)=>{
   console.log('rows inserted successfully');
   db.end();
 }); */
-
 //delete somerows
-db.query('delete from tasks where id > 3', (err, res)=>{
+/* db.query('delete from tasks where id > 3', (err, res)=>{
   if (err){
     console.error(err);
     db.end();
@@ -82,20 +73,39 @@ db.query('delete from tasks where id > 3', (err, res)=>{
   }
   console.log('rows deleted successfully');
   db.end();
-});
-
+}); */
 
 //http
-const personalTasksLst = ['buy food', 'cook food', 'eat food'];
+const personalTasksLst =[];
 const workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
 
+app.get('/users', (req, res)=>{
+  db.query('SELECT name FROM users', (error, results) => {
+      if (error) {
+        throw error;
+      } else{
+        res.send(results.rows);
+      }
+  });
+});
 
 app.get('/', function(req, res){
+
+  db.query('SELECT * FROM tasks', (error, results) => {
+    if (error) {
+      throw error;
+    }
+    const dbTaskLst = results.rows;
+    dbTaskLst.forEach((task)=>{
+      personalTasksLst.push(task.task_name);
+    });
+
     res.render('list', {
-        taskListType: 'Personal', 
-        taskListDate: longDate, 
-        tasksLst: personalTasksLst,
-        route: '/'});
+      taskListType: 'Personal', 
+      taskListDate: longDate, 
+      tasksLst: personalTasksLst,
+      route: '/'});
+  });   
 });
 
 app.post('/', function(req, res){
@@ -110,7 +120,7 @@ app.get('/work', function(req, res){
         taskListDate: dayOfWeek, 
         tasksLst: workTasksLst,
         route: '/work'});
-    });
+});
 
 app.post('/work', function(req, res){
     let newTask = req.body.newTask;
