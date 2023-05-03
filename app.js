@@ -11,33 +11,79 @@ const longDate = date.getDate();
 const dayOfWeek = date.getDayOfWeek();
 
 // pg boilerplate
-const pool  = require('./db');
+const { Client } = require('pg');
+const db = new Client({
+    user: 'postgres',
+    host: 'localhost', //127.0.0.1
+    database: 'todolist',
+    password: 'pass',
+    port: 5432
+});
+db.connect();
 
-app.get('/users', (req, res)=>{
-    pool.query('SELECT * FROM users', (error, results) => {
+/* app.get('/users', (req, res)=>{
+    db.query('SELECT * FROM users', (error, results) => {
         if (error) {
             throw error;
         }
     });
-});
-
-/* pool.query("INSERT INTO users (id, name) VALUES (3, 'Aen');", (error, results) => {
+}); */
+/* db.query("INSERT INTO users (id, name) VALUES (3, 'Aen');", (error, results) => {
   if (error) {
     throw error;
   }
 }); */
-
-/* pool.query("delete from users where id = 3;", (error, results) => {
+/* db.query("delete from users where id = 3;", (error, results) => {
   if (error) {
     throw error;
   } 
 });
  */
-pool.query("update users set name = 'Den' where id = 3;", (error) => {
+/* db.query("update users set name = 'Den' where id = 3;", (error) => {
   if (error) {
     throw error;
   } 
+}); */
+
+// create table
+/* const createTableQuery = `CREATE TABLE IF NOT EXISTS tasks (id SERIAL PRIMARY KEY, task_name VARCHAR(50));`;
+db.query(createTableQuery, (err, res)=>{
+  if (err){
+    console.error(err);
+    db.end();
+    return;
+  }
+  console.log('table created successfully');
+  db.end();
+}); */
+
+//insert into table
+/* const taskOne = "'Welcome to yout todo list'";
+const taskTwo = "'Hit the + button to add new tasks'";
+const taskThree = "'<== Hit this to delete an item'";
+const insertQuery =  `insert into tasks (id, task_name) values (4, ${taskOne}),(5, ${taskTwo}),(6, ${taskThree});`;
+
+db.query(insertQuery, (err, res)=>{
+  if (err){
+    console.error(err);
+    db.end();
+    return;
+  }
+  console.log('rows inserted successfully');
+  db.end();
+}); */
+
+//delete somerows
+db.query('delete from tasks where id > 3', (err, res)=>{
+  if (err){
+    console.error(err);
+    db.end();
+    return;
+  }
+  console.log('rows deleted successfully');
+  db.end();
 });
+
 
 //http
 const personalTasksLst = ['buy food', 'cook food', 'eat food'];
