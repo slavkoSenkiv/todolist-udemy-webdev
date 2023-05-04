@@ -22,65 +22,11 @@ const db = new Client({
 db.connect();
 console.log('pg db is connected')
 
-//test queries
-/* db.query("INSERT INTO users (id, name) VALUES (3, 'Aen');", (error, results) => {
-  if (error) {
-    throw error;
-  }
-}); */
-/* db.query("delete from users where id = 3;", (error, results) => {
-  if (error) {
-    throw error;
-  } 
-});
- */
-/* db.query("update users set name = 'Den' where id = 3;", (error) => {
-  if (error) {
-    throw error;
-  } 
-}); */
-// create table
-/* const createTableQuery = `CREATE TABLE IF NOT EXISTS tasks (id SERIAL PRIMARY KEY, task_name VARCHAR(50));`;
-db.query(createTableQuery, (err, res)=>{
-  if (err){
-    console.error(err);
-    db.end();
-    return;
-  }
-  console.log('table created successfully');
-  db.end();
-}); */
-//insert into table
-/* const taskOne = "'Welcome to yout todo list'";
-const taskTwo = "'Hit the + button to add new tasks'";
-const taskThree = "'<== Hit this to delete an item'";
-const insertQuery =  `insert into tasks (id, task_name) values (4, ${taskOne}),(5, ${taskTwo}),(6, ${taskThree});`;
-
-db.query(insertQuery, (err, res)=>{
-  if (err){
-    console.error(err);
-    db.end();
-    return;
-  }
-  console.log('rows inserted successfully');
-  db.end();
-}); */
-//delete somerows
-/* db.query('delete from tasks where id > 3', (err, res)=>{
-  if (err){
-    console.error(err);
-    db.end();
-    return;
-  }
-  console.log('rows deleted successfully');
-  db.end();
-}); */
-
 //http
 const personalTasksLst =[];
 const workTasksLst = [];
 
-function renderList(res, listName) {
+function renderList(res, listName, desitationLst) {
   res.render('list', {
     taskListType: listName, 
     taskListDate: longDate, 
@@ -100,22 +46,33 @@ function renderListbasedOnInput(root, idRange, desitationLst, listName) {
         dbTaskLst.forEach((task) => {
           desitationLst.push(task.task_name);
         });
-        renderList(res, listName);
+        renderList(res, listName, desitationLst);
       });   
     } else {
-        renderList(res, listName);
+        renderList(res, listName, desitationLst);
     }
   });
 }
 
-
 renderListbasedOnInput('/', '<=3', personalTasksLst, 'Personal');
 
 app.post('/', function(req, res){
-    let newTask = req.body.newTask;
-    personalTasksLst.push(newTask);
-    res.redirect('/');
+
+  const newTask = req.body.newTask;
+
+  const newTaskId = 7; //personalTasksLst.length + 1;
+
+  const querySting = 'insert into tasks (id, task_name) values (' + newTaskId + ", '" + newTask + "');";
+  console.log(querySting);
+
+  db.query(querySting, (error, results) => {
+    if (error) {throw error};
+    console.log(results);
+  });
+
+  res.redirect('/');
 }); 
+
 
 renderListbasedOnInput('/work', '>=4', workTasksLst, 'Work');
 
@@ -135,42 +92,3 @@ app.get('/about', function(req, res){
 app.listen(3000, function(){
     console.log('server is up and listening to port 3000');
 });
-
-/* app.get('/work', function(req, res){
-
-  db.query('select * from tasks where id >= 4', (error, results) => {
-    if (error) {
-      throw error;
-    }
-    const dbTaskLst = results.rows;
-    dbTaskLst.forEach((task)=>{
-      workTasksLst.push(task.task_name);
-    });
-
-    res.render('list', {
-      taskListType: 'Work', 
-      taskListDate: longDate, 
-      tasksLst: workTasksLst,
-      route: '/'});
-  }); 
-}); */
-
-/* app.get('/', function(req, res){
-
-  db.query('select * from tasks where id <= 3', (error, results) => {
-    if (error) {
-      throw error;
-    }
-    const dbTaskLst = results.rows;
-    dbTaskLst.forEach((task)=>{
-      personalTasksLst.push(task.task_name);
-    });
-
-    res.render('list', {
-      taskListType: 'Personal', 
-      taskListDate: longDate, 
-      tasksLst: personalTasksLst,
-      route: '/'});
-  });   
-}); */
-
