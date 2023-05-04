@@ -80,34 +80,36 @@ db.query(insertQuery, (err, res)=>{
 const personalTasksLst =[];
 const workTasksLst = [];
 
-app.get('/users', (req, res)=>{
-  db.query('SELECT name FROM users', (error, results) => {
-      if (error) {
-        throw error;
-      } else{
-        res.send(results.rows);
-      }
-  });
-});
+function renderList(res, listName) {
+  res.render('list', {
+    taskListType: listName, 
+    taskListDate: longDate, 
+    tasksLst: desitationLst,
+    route: '/'});
+}
 
-app.get('/', function(req, res){
-
-  db.query('select * from tasks where id <= 3', (error, results) => {
-    if (error) {
-      throw error;
+function renderListbasedOnInput(root, idRange, desitationLst, listName) {
+  app.get(root, function(req, res) {
+    if (desitationLst.length === 0) {
+      const querySting = 'select * from tasks where id ' + idRange;
+      db.query(querySting, (error, results) => {
+        if (error) {
+          throw error;
+        }
+        const dbTaskLst = results.rows;
+        dbTaskLst.forEach((task) => {
+          desitationLst.push(task.task_name);
+        });
+        renderList(res, listName);
+      });   
+    } else {
+        renderList(res, listName);
     }
-    const dbTaskLst = results.rows;
-    dbTaskLst.forEach((task)=>{
-      personalTasksLst.push(task.task_name);
-    });
+  });
+}
 
-    res.render('list', {
-      taskListType: 'Personal', 
-      taskListDate: longDate, 
-      tasksLst: personalTasksLst,
-      route: '/'});
-  });   
-});
+
+renderListbasedOnInput('/', '<=3', personalTasksLst, 'Personal');
 
 app.post('/', function(req, res){
     let newTask = req.body.newTask;
@@ -115,24 +117,7 @@ app.post('/', function(req, res){
     res.redirect('/');
 }); 
 
-app.get('/work', function(req, res){
-
-  db.query('select * from tasks where id >= 4', (error, results) => {
-    if (error) {
-      throw error;
-    }
-    const dbTaskLst = results.rows;
-    dbTaskLst.forEach((task)=>{
-      workTasksLst.push(task.task_name);
-    });
-
-    res.render('list', {
-      taskListType: 'Work', 
-      taskListDate: longDate, 
-      tasksLst: workTasksLst,
-      route: '/'});
-  }); 
-});
+renderListbasedOnInput('/work', '>=4', workTasksLst, 'Work');
 
 app.post('/work', function(req, res){
     let newTask = req.body.newTask;
@@ -150,4 +135,42 @@ app.get('/about', function(req, res){
 app.listen(3000, function(){
     console.log('server is up and listening to port 3000');
 });
+
+/* app.get('/work', function(req, res){
+
+  db.query('select * from tasks where id >= 4', (error, results) => {
+    if (error) {
+      throw error;
+    }
+    const dbTaskLst = results.rows;
+    dbTaskLst.forEach((task)=>{
+      workTasksLst.push(task.task_name);
+    });
+
+    res.render('list', {
+      taskListType: 'Work', 
+      taskListDate: longDate, 
+      tasksLst: workTasksLst,
+      route: '/'});
+  }); 
+}); */
+
+/* app.get('/', function(req, res){
+
+  db.query('select * from tasks where id <= 3', (error, results) => {
+    if (error) {
+      throw error;
+    }
+    const dbTaskLst = results.rows;
+    dbTaskLst.forEach((task)=>{
+      personalTasksLst.push(task.task_name);
+    });
+
+    res.render('list', {
+      taskListType: 'Personal', 
+      taskListDate: longDate, 
+      tasksLst: personalTasksLst,
+      route: '/'});
+  });   
+}); */
 
