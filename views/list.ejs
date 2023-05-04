@@ -1,11 +1,11 @@
 <%- include('header') -%>
 
-    <% for (i=0; i < tasksLst.length; i++){ %>
+    <% tasksLst.forEach((task)=>{ %>
         <div class="item">
             <input type="checkbox">
-            <p><%= tasksLst[i] %></p>
+            <p><%= task %></p>
         </div>
-    <% } %>
+    <% }) %>
         <form action=' <%= route %> ' method="post" class="item">
             <input type="text" name="newTask" placeholder="new task" autocomplete="off">
             <button type="submit">+</button>

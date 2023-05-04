@@ -20,6 +20,7 @@ const db = new Client({
     port: 5432
 });
 db.connect();
+console.log('pg db is connected')
 
 //test queries
 /* db.query("INSERT INTO users (id, name) VALUES (3, 'Aen');", (error, results) => {
@@ -77,7 +78,7 @@ db.query(insertQuery, (err, res)=>{
 
 //http
 const personalTasksLst =[];
-const workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
+const workTasksLst = [];
 
 app.get('/users', (req, res)=>{
   db.query('SELECT name FROM users', (error, results) => {
@@ -91,7 +92,7 @@ app.get('/users', (req, res)=>{
 
 app.get('/', function(req, res){
 
-  db.query('SELECT * FROM tasks', (error, results) => {
+  db.query('select * from tasks where id <= 3', (error, results) => {
     if (error) {
       throw error;
     }
@@ -115,11 +116,22 @@ app.post('/', function(req, res){
 }); 
 
 app.get('/work', function(req, res){
+
+  db.query('select * from tasks where id >= 4', (error, results) => {
+    if (error) {
+      throw error;
+    }
+    const dbTaskLst = results.rows;
+    dbTaskLst.forEach((task)=>{
+      workTasksLst.push(task.task_name);
+    });
+
     res.render('list', {
-        taskListType: 'Work', 
-        taskListDate: dayOfWeek, 
-        tasksLst: workTasksLst,
-        route: '/work'});
+      taskListType: 'Work', 
+      taskListDate: longDate, 
+      tasksLst: workTasksLst,
+      route: '/'});
+  }); 
 });
 
 app.post('/work', function(req, res){
