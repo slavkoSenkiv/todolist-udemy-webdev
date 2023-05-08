@@ -11,26 +11,51 @@ const longDate = date.getDate();
 const dayOfWeek = date.getDayOfWeek();
 
 //sequelize
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sequelize');
+const Sequelize = require('sequelize');
+const {DataTypes, Op} = Sequelize;
 
-const User = sequelize.define('users', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }
+const sequelize = new Sequelize(
+  'todolist',
+  'postgres',
+  'pass',
+  {
+    dialect: 'postgres',
+    freezeTableName: true
+  });
+
+sequelize.authenticate().then(() =>{
+  console.log('connection successful');
+}).catch((err)=>{
+  console.log('error connection to the database');
 });
 
-async function getUsers() {
-  const users = await User.findAll();
-  console.log(users);
-}
+const Task = sequelize.define('tasks', {
+  id:{
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  category:{
+    type: DataTypes.STRING,
+  },
+  task_name:{
+    type: DataTypes.STRING
+  }
+},{
+  timestamps: false
+});
 
-getUsers(); 
+Task.sync({alter: true}).then(()=>{
+    //Task.update({category: 'work'}, {where : {'id':{[Op.gt]:3}}});
+  }).then((data)=>{
+/*     data.forEach((dataPiece)=>{
+      console.log(dataPiece);
+    }) */
+    console.log(data);
+  }).catch((err)=>{
+    console.log('error syncing table and model');
+    console.log(err);
+  })
 
 //http 
 let personalTasksLst = ['buy food', 'cook food', 'eat food'];
