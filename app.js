@@ -48,6 +48,8 @@ const Task = sequelize.define('tasks', {
 
 //task sync
 //Task.update({category: 'work'}, {where : {'id':{[Op.gt]:3}}});
+
+//functions
 function getTasks(tasksDbCat, tasksLst){
   Task.sync({alter: true}).then(()=>{
     return Task.findAll({attributes: ['task_name'], where:{category:{[Op.eq]:tasksDbCat}}});
@@ -81,9 +83,6 @@ function getPage(route, listType, tasksLst){
     }
   });
 }
-
-
-
 
 //http 
 let personalTasksLst = [];
