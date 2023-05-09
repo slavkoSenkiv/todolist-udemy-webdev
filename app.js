@@ -51,7 +51,7 @@ const Task = sequelize.define('tasks', {
 
 //functions
 function getTasks(tasksDbCat, tasksLst){
-  Task.sync({alter: true}).then(()=>{
+  return Task.sync({alter: true}).then(()=>{
     return Task.findAll({attributes: ['task_name'], where:{category:{[Op.eq]:tasksDbCat}}});
   }).then((data)=>{
       data.forEach((dataPiece)=>{
@@ -76,8 +76,9 @@ function renderListPage(listType, tasksLst, res, route){
 function getPage(route, listType, tasksLst){
   app.get(route, function(req, res){
     if (tasksLst.length === 0){
-      getTasks(listType, tasksLst);
-      renderListPage(listType, tasksLst, res, route);
+      getTasks(listType, tasksLst).then(()=>{
+        renderListPage(listType, tasksLst, res, route);
+      });
     } else{
       renderListPage(listType, tasksLst, res, route);
     }
@@ -90,11 +91,27 @@ let workTasksLst = [];
 
 getPage('/', 'personal', personalTasksLst);
 
+
 app.post('/', function(req, res){
-    let newTask = req.body.newTask;
-    personalTasksLst.push(newTask);
+
+  const newTask = req.body.newTask;
+
+  return Task.sync({alter: true}).then(()=>{
+
+    return Task.create({
+      category: 'personal',
+      task_name: newTask
+    });
+
+  }).then((data)=>{
+    //console.log(data);
     res.redirect('/');
-}); 
+  }).catch((err)=>{
+    console.log('error syncing table and model');
+    console.log(err);
+  });
+
+});
 
 getPage('/work', 'work', workTasksLst);
 
