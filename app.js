@@ -63,19 +63,33 @@ function getTasks(tasksDbCat, tasksLst){
     });
 }
 
+function renderListPage(listType, tasksLst, res, route){
+  res.render('list', {
+    taskListType: listType, 
+    taskListDate: longDate, 
+    tasksLst: tasksLst,
+    route: route});
+}
+
+function getPage(route, listType, tasksLst){
+  app.get(route, function(req, res){
+    if (tasksLst.length === 0){
+      getTasks(listType, tasksLst);
+      renderListPage(listType, tasksLst, res, route);
+    } else{
+      renderListPage(listType, tasksLst, res, route);
+    }
+  });
+}
+
+
+
 
 //http 
 let personalTasksLst = [];
-let workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
+let workTasksLst = [];
 
-app.get('/', function(req, res){
-  getTasks('personal', personalTasksLst);
-    res.render('list', {
-        taskListType: 'Personal', 
-        taskListDate: longDate, 
-        tasksLst: personalTasksLst,
-        route: '/'});
-});
+getPage('/', 'personal', personalTasksLst);
 
 app.post('/', function(req, res){
     let newTask = req.body.newTask;
@@ -83,13 +97,7 @@ app.post('/', function(req, res){
     res.redirect('/');
 }); 
 
-app.get('/work', function(req, res){
-    res.render('list', {
-        taskListType: 'Work', 
-        taskListDate: dayOfWeek, 
-        tasksLst: workTasksLst,
-        route: '/work'});
-});
+getPage('/work', 'work', workTasksLst);
 
 app.post('/work', function(req, res){
     let newTask = req.body.newTask;
