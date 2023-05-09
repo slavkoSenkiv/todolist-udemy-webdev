@@ -10,7 +10,7 @@ const date = require(__dirname + '/date.js');
 const longDate = date.getDate();
 const dayOfWeek = date.getDayOfWeek();
 
-//sequelize
+//sequelize boiler plate
 const Sequelize = require('sequelize');
 const {DataTypes, Op} = Sequelize;
 
@@ -29,6 +29,7 @@ sequelize.authenticate().then(() =>{
   console.log('error connection to the database');
 });
 
+//task model
 const Task = sequelize.define('tasks', {
   id:{
     type: DataTypes.INTEGER,
@@ -45,23 +46,30 @@ const Task = sequelize.define('tasks', {
   timestamps: false
 });
 
-Task.sync({alter: true}).then(()=>{
-    //Task.update({category: 'work'}, {where : {'id':{[Op.gt]:3}}});
+//task sync
+//Task.update({category: 'work'}, {where : {'id':{[Op.gt]:3}}});
+function getTasks(tasksDbCat, tasksLst){
+  Task.sync({alter: true}).then(()=>{
+    return Task.findAll({attributes: ['task_name'], where:{category:{[Op.eq]:tasksDbCat}}});
   }).then((data)=>{
-/*     data.forEach((dataPiece)=>{
-      console.log(dataPiece);
-    }) */
-    console.log(data);
-  }).catch((err)=>{
-    console.log('error syncing table and model');
-    console.log(err);
-  })
+      data.forEach((dataPiece)=>{
+        let task_name = dataPiece.dataValues.task_name;
+        console.log(task_name);
+        tasksLst.push(task_name);
+      });
+    }).catch((err)=>{
+      console.log('error syncing table and model');
+      console.log(err);
+    });
+}
+
 
 //http 
-let personalTasksLst = ['buy food', 'cook food', 'eat food'];
+let personalTasksLst = [];
 let workTasksLst = ['check calendar', 'check tasks', 'check inbox'];
 
 app.get('/', function(req, res){
+  getTasks('personal', personalTasksLst);
     res.render('list', {
         taskListType: 'Personal', 
         taskListDate: longDate, 
@@ -81,7 +89,7 @@ app.get('/work', function(req, res){
         taskListDate: dayOfWeek, 
         tasksLst: workTasksLst,
         route: '/work'});
-    });
+});
 
 app.post('/work', function(req, res){
     let newTask = req.body.newTask;
