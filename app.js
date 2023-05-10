@@ -54,6 +54,7 @@ function getTasks(tasksDbCat, tasksLst){
   return Task.sync({alter: true}).then(()=>{
     return Task.findAll({attributes: ['task_name'], where:{category:{[Op.eq]:tasksDbCat}}});
   }).then((data)=>{
+    tasksLst.splice(0, tasksLst.length);
       data.forEach((dataPiece)=>{
         let task_name = dataPiece.dataValues.task_name;
         console.log(task_name);
@@ -75,13 +76,34 @@ function renderListPage(listType, tasksLst, res, route){
 
 function getPage(route, listType, tasksLst){
   app.get(route, function(req, res){
-    if (tasksLst.length === 0){
-      getTasks(listType, tasksLst).then(()=>{
-        renderListPage(listType, tasksLst, res, route);
-      });
-    } else{
+    getTasks(listType, tasksLst).then(()=>{
       renderListPage(listType, tasksLst, res, route);
-    }
+    });
+
+  });
+}
+
+function postTask(route, category){
+
+  app.post(route, function(req, res){
+
+    const newTask = req.body.newTask;
+  
+    return Task.sync({alter: true}).then(()=>{
+      return Task.create({
+        category: category,
+        task_name: newTask
+      });
+  
+    }).then((data)=>{
+      console.log(data);
+      res.redirect(route);
+  
+    }).catch((err)=>{
+      console.log('error syncing table and model');
+      console.log(err);
+    });
+  
   });
 }
 
@@ -91,35 +113,11 @@ let workTasksLst = [];
 
 getPage('/', 'personal', personalTasksLst);
 
-
-app.post('/', function(req, res){
-
-  const newTask = req.body.newTask;
-
-  return Task.sync({alter: true}).then(()=>{
-
-    return Task.create({
-      category: 'personal',
-      task_name: newTask
-    });
-
-  }).then((data)=>{
-    //console.log(data);
-    res.redirect('/');
-  }).catch((err)=>{
-    console.log('error syncing table and model');
-    console.log(err);
-  });
-
-});
+postTask('/', 'personal');
 
 getPage('/work', 'work', workTasksLst);
 
-app.post('/work', function(req, res){
-    let newTask = req.body.newTask;
-    workTasksLst.push(newTask);
-    res.redirect('/work');
-}); 
+postTask('/work', 'work');
 
 app.get('/about', function(req, res){
     res.render('about', {
