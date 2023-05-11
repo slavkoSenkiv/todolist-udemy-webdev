@@ -1,16 +1,16 @@
-//express
+//express boilerplate
 const express = require('express');
 const app = express();
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
-//date
+//date boilerplate
 const date = require(__dirname + '/date.js');
 const longDate = date.getDate();
 const dayOfWeek = date.getDayOfWeek();
 
-//sequelize boiler plate
+//sequelize boilerplate
 const Sequelize = require('sequelize');
 const {DataTypes, Op} = Sequelize;
 
@@ -46,19 +46,21 @@ const Task = sequelize.define('tasks', {
   timestamps: false
 });
 
-//task sync
-//Task.update({category: 'work'}, {where : {'id':{[Op.gt]:3}}});
-
 //functions
 function getTasks(tasksDbCat, tasksLst){
   return Task.sync({alter: true}).then(()=>{
-    return Task.findAll({attributes: ['task_name'], where:{category:{[Op.eq]:tasksDbCat}}});
+
+    return Task.findAll({
+      attributes: ['id', 'task_name'], 
+      where:{category:{[Op.eq]:tasksDbCat}}});
+
   }).then((data)=>{
     tasksLst.splice(0, tasksLst.length);
       data.forEach((dataPiece)=>{
-        let task_name = dataPiece.dataValues.task_name;
-        console.log(task_name);
-        tasksLst.push(task_name);
+        tasksLst.push({
+          id: dataPiece.dataValues.id,
+          task_name: dataPiece.dataValues.task_name
+        });
       });
     }).catch((err)=>{
       console.log('error syncing table and model');
@@ -79,7 +81,6 @@ function getPage(route, listType, tasksLst){
     getTasks(listType, tasksLst).then(()=>{
       renderListPage(listType, tasksLst, res, route);
     });
-
   });
 }
 
@@ -96,14 +97,12 @@ function postTask(route, category){
       });
   
     }).then((data)=>{
-      console.log(data);
       res.redirect(route);
-  
+
     }).catch((err)=>{
       console.log('error syncing table and model');
       console.log(err);
     });
-  
   });
 }
 
@@ -119,6 +118,20 @@ getPage('/work', 'work', workTasksLst);
 
 postTask('/work', 'work');
 
+
+app.post('/delete', function(req, res){
+  let deleteTaskId = req.body.checkbox;
+  return Task.sync({alter: true}).then(()=>{
+    return Task.destroy({where:{id:deleteTaskId}});
+  }).then((data)=>{
+    personalTasksLst = personalTasksLst.filter(task => task.id !== parseInt(deleteTaskId));
+    renderListPage('personal', personalTasksLst, res, '/');
+  }).catch((err)=>{
+    console.log('error syncing table and model');
+    console.log(err);
+  });
+});
+
 app.get('/about', function(req, res){
     res.render('about', {
         taskListType: 'About',
@@ -126,6 +139,6 @@ app.get('/about', function(req, res){
     });
 });
 
-app.listen(3000, function(){
-    console.log('server is up and listening to port 3000');
+app.listen(4000, function(){
+    console.log('server is up and listening to port 4000');
 });
