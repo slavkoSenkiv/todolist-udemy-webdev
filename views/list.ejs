@@ -1,6 +1,6 @@
 <%- include('header') -%>
 
-    <% tasksLst.forEach((task)=>{ %>
+    <% tasksArray.forEach((task)=>{ %>
         <form action="/delete" method="post">
             <div class="item">
                 <input type="checkbox" name="checkbox" value="<%= task.id %>" onchange="this.form.submit()">

@@ -2,13 +2,16 @@
 const express = require('express');
 const app = express();
 app.use(express.urlencoded({extended:true}));
+app.use(express.json());
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 //date boilerplate
-const date = require(__dirname + '/date.js');
+const longDate = new Date().toLocaleDateString();
+/* const date = require(__dirname + '/date.js');
 const longDate = date.getDate();
 const dayOfWeek = date.getDayOfWeek();
+ */
 
 //sequelize boilerplate
 const Sequelize = require('sequelize');
@@ -28,7 +31,6 @@ sequelize.authenticate().then(() =>{
 }).catch((err)=>{
   console.log('error connection to the database');
 });
-
 
 //main code
 
@@ -50,82 +52,86 @@ const Task = sequelize.define('tasks', {
 });
 
 //functions
-function getPage(route, tasksLst){
+function getPage(route){
   app.get(route, function(req, res){
-    let category = req.params.listUrl || 'personal';
- 
-    getTasks(route, tasksLst).then(()=>{
-      renderListPage(category, tasksLst, res, route);
+
+    let tasksDbCategory = req.params.listUrl || 'personal';
+    getTasks(tasksDbCategory, res, tasksArray).then(()=>{
+      renderListPage(tasksDbCategory, tasksArray, res, route);
+
     }).catch((err)=>{
       console.log('error getting tasks');
       console.log(err);
       res.status(500).send('Internal Server Error');
     });
   });
-}
+};
 
 
-function getTasks(tasksDbCategory, tasksLst){
+function getTasks(tasksDbCategory, tasksArray){
+
   return Task.sync({alter: true}).then(()=>{
     return Task.findAll({
       attributes: ['id', 'task_name'], 
       where:{category:{[Op.eq]:tasksDbCategory}}});
+
   }).then((data)=>{
-    tasksLst.splice(0, tasksLst.length);
+    tasksArray.splice(0, tasksArray.length);
       data.forEach((dataPiece)=>{
-        tasksLst.push({
+
+        tasksArray.push({
           id: dataPiece.dataValues.id,
           task_name: dataPiece.dataValues.task_name
         });
       });
+
     }).catch((err)=>{
       console.log('error syncing table and model');
       console.log(err);
     });
-}
+};
 
 
-function renderListPage(tasksCategory, tasksLst, res, route){
+function renderListPage(tasksDbCategory, tasksArray, res, route){
   res.render('list', {
-    tasksCategory: tasksCategory, 
+    tasksCategory: tasksDbCategory, 
     taskListDate: longDate, 
-    tasksLst: tasksLst,
+    tasksArray: tasksArray,
     route: route});
-}
+};
 
 
 function postTask(route){
   app.post(route, function(req, res){
-    if (route == '/'){
-      category = 'personal';
-    } else{
-      category = req.params.listUrl;
-    }
-    const newTask = req.body.newTask;
+
+    let tasksDbCategory = req.params.listUrl || 'personal';
+    let newTask = req.body.newTask;
+
     return Task.sync({alter: true}).then(()=>{
       return Task.create({
-        category: category,
+        category: tasksDbCategory,
         task_name: newTask
       });
+
     }).then((data)=>{
-      res.redirect(route);
+      getPage(route);
+      //renderListPage(tasksDbCategory, tasksArray, res, route);
+
     }).catch((err)=>{
       console.log('error syncing table and model');
       console.log(err);
     });
   });
-}
+};
 
 
 
 //http 
-let tasksLst = [];
+const tasksArray = [];
 
 
 //http methods
-getPage('/:listUrl?', tasksLst);
-
-//getPage('/', tasksLst);
+getPage('/:listUrl?');
 
 postTask('/:listUrl?');
 
@@ -135,7 +141,7 @@ app.post('/delete', function(req, res){
   return Task.sync({alter: true}).then(()=>{
     return Task.destroy({where:{id:deleteTaskId}});
   }).then((data)=>{
-    personalTasksLst = personalTasksLst.filter(task => task.id !== parseInt(deleteTaskId));
+    personaltasksArray = personaltasksArray.filter(task => task.id !== parseInt(deleteTaskId));
     res.redirect('/');
   }).catch((err)=>{
     console.log('error syncing table and model');
