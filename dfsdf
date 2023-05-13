@@ -1,0 +1,242 @@
+[33mcommit 3b390815d4b20c7dfeb7fd172792529925eb8067[m[33m ([m[1;36mHEAD -> [m[1;32mdev-sequelize[m[33m)[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Sat May 13 11:44:50 2023 +0300
+
+    before gpt rebuild
+
+[33mcommit e02b36dc546d9b30914c3f2538c7cc1eb5cf53fd[m[33m ([m[1;31morigin/dev-sequelize[m[33m)[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Sat May 13 09:08:09 2023 +0300
+
+    working handeling both root and dynamic routes with one function call
+
+[33mcommit 682b2d3ceabb8591dfa508961767fa2f4e61c02f[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Thu May 11 09:43:51 2023 +0300
+
+    add delete functionality from db and web page for personal list only for now
+
+[33mcommit c2cf44aac0756e712baafa5fd870045ae9a0276f[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Wed May 10 08:43:47 2023 +0300
+
+    make get and post methods work properly and convert to functions so can be reused for both personal and work todolists
+
+[33mcommit 7f394799185a693884fc8be112e28e627bdb0604[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue May 9 22:25:29 2023 +0300
+
+    try make post method work properly (save input to db and render it afterwards
+
+[33mcommit 9b09892cd719a29105c86fecd4ccc95dac8d0c8b[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue May 9 08:47:27 2023 +0300
+
+    convert get request into reusable function
+
+[33mcommit b349d5dbb17d873bd4a14eae28d58b1ac5abe51a[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue May 9 08:46:56 2023 +0300
+
+    convert get request into reusable function
+
+[33mcommit 2d503c34a53e40827615762ea2e3a5b4099c978f[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue May 9 07:47:58 2023 +0300
+
+    crate function that puts tasks from db to tasks arr
+
+[33mcommit 8125142ecf6e31214ae4ab29b69bb841aeee8071[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Mon May 8 21:58:16 2023 +0300
+
+    setup sequelise following youtube tutorial, remove some packs, create task model, add categofy to tasks
+
+[33mcommit 16a39f821553862c383eb95292b5e5e7343e1b6e[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Wed May 3 07:18:33 2023 +0300
+
+    tried to make it work with youtube tutorial, again
+
+[33mcommit d94d05b5ef13b76098b006490ce10ae0390965c8[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue May 2 07:59:05 2023 +0300
+
+    make sequelize work following youtube tutorial - install packs and setup sequelize boilerplate
+
+[33mcommit b8119bc144fa620f84ebdec26d6835bf759e6b24[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Mon May 1 21:41:49 2023 +0300
+
+    tried to make sequelize read and insert but no luck so far
+
+[33mcommit 016f47ab6de6851612c8dcd6c8d3d86afef86ece[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Mon May 1 09:44:23 2023 +0300
+
+    add sequelize and its boilerplate
+
+[33mcommit c63baf7adcb5e400155b4bc89499fa67b5714188[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Mon May 1 09:42:45 2023 +0300
+
+    add sequelize and its boilerplate
+
+[33mcommit ed92eea9f3d0c6603fb9bcc51fa7640c771ed1bb[m[33m ([m[1;32mdev[m[33m)[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Sun Apr 16 08:16:20 2023 +0300
+
+    refractor date module
+
+[33mcommit d215d0e47f2d0f31dedaf3c7851b58fecc3caa61[m[33m ([m[1;31morigin/dev[m[33m)[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Sun Apr 16 08:07:05 2023 +0300
+
+    add more methods into date separate module and use them from server code
+
+[33mcommit c649236d56b7a68566176d06a3efdb652d31eb3e[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Sat Apr 15 08:45:36 2023 +0300
+
+    move get date code to separate module
+
+[33mcommit 726d2b186a08d65b0de3223cb2d734e78ec68f93[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Fri Apr 14 08:15:59 2023 +0300
+
+    make dynamic header and footer + about page
+
+[33mcommit d440ac41798cd2ff84467a87e2b221a2b43280ac[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Thu Apr 13 22:44:22 2023 +0300
+
+    improve by making form action ejs veriable from server
+
+[33mcommit fe9bf5321737986ebd057628bc6a4d598d07c9cd[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Thu Apr 13 22:43:54 2023 +0300
+
+    improve by making form action ejs veriable from server
+
+[33mcommit f873ead427c3f0792200f3ad1c9a312a0095f3a8[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Thu Apr 13 22:32:05 2023 +0300
+
+    make it work by angella way
+
+[33mcommit f3fdad71f4caee9bcea557c2806c2bff3ab6b7ab[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Thu Apr 13 09:10:07 2023 +0300
+
+    make code more readable
+
+[33mcommit ef830796cbe634de62e797824a706c3bc3023354[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Thu Apr 13 08:58:41 2023 +0300
+
+    cut unnecessary lines
+
+[33mcommit a9966a07795e42e9ce9039da182d7b967fa47387[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Thu Apr 13 08:53:12 2023 +0300
+
+    add work view - my implementation variant
+
+[33mcommit 5ccf4121a137579881708c541893f69d51fdf755[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Wed Apr 12 21:55:42 2023 +0300
+
+    add prebuild css clases to html elements
+
+[33mcommit 8caa3e953d3aa769a7ccc572c73d8bbbb9c32657[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Wed Apr 12 20:49:58 2023 +0300
+
+    add css via public access
+
+[33mcommit a135a91c21e356d8556052c073b9d07f5fa21771[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue Apr 11 22:34:38 2023 +0300
+
+    make new input appear at the end of list
+
+[33mcommit f2cd5f97c3bc425bac91b79e652a7f8cbc8e3eb4[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue Apr 11 22:11:22 2023 +0300
+
+    add and refresh last item in the list
+
+[33mcommit 01703195e3e4e216f37a15dbf13e16d3cc2b92a3[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue Apr 11 20:18:52 2023 +0300
+
+    add input from and post method
+
+[33mcommit 6ce02edf5cec3815d7c9980627ba3302533848bc[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue Apr 11 09:19:04 2023 +0300
+
+    remove deprecated html files
+
+[33mcommit 5899aa56cfd4673de2e386c48207222b5f7decdb[m
+Merge: 02a7166 1d61dc9
+Author: Yaroslav Senkiv <60449898+slavkoSenkiv@users.noreply.github.com>
+Date:   Tue Apr 11 09:01:09 2023 +0300
+
+    Merge pull request #2 from slavkoSenkiv/with-html-scriplet
+    
+    With html scriplet
+
+[33mcommit 1d61dc978b33a4a9a82e109a4d6f48b36c275319[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue Apr 11 08:59:33 2023 +0300
+
+    decrease code with better date method
+
+[33mcommit 02a716629f44e8c0ca00090f469793678356d46d[m
+Merge: 5811ed5 b2efc15
+Author: Yaroslav Senkiv <60449898+slavkoSenkiv@users.noreply.github.com>
+Date:   Tue Apr 11 08:56:57 2023 +0300
+
+    Merge pull request #1 from slavkoSenkiv/diff-responce-per-dow
+    
+    Diff responce per dow
+
+[33mcommit b73b6bef37ba95d9120953e48298439f3d9204c8[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue Apr 11 08:03:02 2023 +0300
+
+    cut switch code
+
+[33mcommit 1fd3d61b1d92f269cfa2405709ad8fb5db7b00c1[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Tue Apr 11 07:59:04 2023 +0300
+
+    add scriplet with h1 color change based on dow
+
+[33mcommit b2efc153530d5f80765f55dfa63085472ed22d49[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Mon Apr 10 19:42:07 2023 +0300
+
+    add case per dow
+
+[33mcommit 16db9c204ac5b2c231e8b812e39137fc32b06107[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Mon Apr 10 09:59:18 2023 +0300
+
+    with ejs template and veriables and adjusted server code
+
+[33mcommit 0cd8d87f3fae3da338fe28be047446fc62250e2d[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Mon Apr 10 08:38:20 2023 +0300
+
+    init commit to new branch + install ejs pack
+
+[33mcommit 4c6e87cbcced6845ef5e1ebd550a6188668d7042[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro.com>
+Date:   Mon Apr 10 08:25:21 2023 +0300
+
+    upd server code to send html file instead of raw html as a string
+
+[33mcommit 29759ec4e5a475c2376368b44addfbbeea6f4b86[m
+Author: Yaroslav Senkiv <slav.senkiv@bytro
