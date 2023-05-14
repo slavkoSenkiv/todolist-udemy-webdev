@@ -1,0 +1,16 @@
+{
+    "development": {
+      "dialect": "postgres",
+      "host": "localhost",
+      "port": 5432,
+      "database": "todolist",
+      "username": "postgres",
+      "password": "pass",
+      "url": "postgres://postgres:pass@localhost:5432/todolist"
+
+    },
+    "production": {
+      "dialect": "postgres",
+      "use_env_variable": "DATABASE_URL"
+    }
+  }

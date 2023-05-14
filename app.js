@@ -11,6 +11,8 @@ const longDate = date.getDate();
 const dayOfWeek = date.getDayOfWeek();
 
 //sequelize boilerplate
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/config/config.json')[env];
 const Sequelize = require('sequelize');
 const {DataTypes, Op} = Sequelize;
 
@@ -18,15 +20,16 @@ const sequelize = new Sequelize(
   'todolist',
   'postgres',
   'pass',
+  config,
   {
     dialect: 'postgres',
     freezeTableName: true,
-    logging: (msg) => {
+    logging: true /* (msg) => {
       let neededQuery = 'Executing (default): SELECT "id", "task_name" FROM "tasks" AS "tasks" WHERE "tasks"."category" = ';
       if (msg.startsWith(neededQuery) && !msg.includes('favicon.ico')) {
         console.log(msg);
       }
-    }
+    } */
   });
 
 sequelize.authenticate().then(() =>{
@@ -146,8 +149,6 @@ function logErr(res, err){
   res.status(500).send('Internal Server Error');
 }
 
-
-
 let tasksLst = [];
 
 
@@ -162,7 +163,9 @@ app.get('/about', function(req, res){
     });
 });
 
-app.listen(3000, function(){
-    console.log('server is up and listening to port 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
 });
+
 
