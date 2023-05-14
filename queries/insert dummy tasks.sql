@@ -1,0 +1,1 @@
+insert into tasks (task_name, category) values ('test personal task 1', 'personal'), ('test custom task 1', 'custom')

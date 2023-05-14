@@ -3,7 +3,11 @@
     <% tasksLst.forEach((task)=>{ %>
         <form action="/delete" method="post">
             <div class="item">
-                <input type="checkbox" name="checkbox" value="<%= task.id %>" onchange="this.form.submit()">
+                <input 
+                    type="checkbox" 
+                    name="deleteTaskId" 
+                    value="<%= task.id %>" 
+                    onchange="this.form.submit()">
                 <p><%= task.task_name %></p>
             </div>
         </form>
