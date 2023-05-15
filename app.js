@@ -17,19 +17,14 @@ const Sequelize = require('sequelize');
 const {DataTypes, Op} = Sequelize;
 
 const sequelize = new Sequelize(
-  'todolist',
-  'postgres',
-  'pass',
+  process.env.DATABASE_NAME,
+  process.env.DATABASE_USERNAME,
+  process.env.DATABASE_PASSWORD,
   config,
   {
     dialect: 'postgres',
     freezeTableName: true,
-    logging: true /* (msg) => {
-      let neededQuery = 'Executing (default): SELECT "id", "task_name" FROM "tasks" AS "tasks" WHERE "tasks"."category" = ';
-      if (msg.startsWith(neededQuery) && !msg.includes('favicon.ico')) {
-        console.log(msg);
-      }
-    } */
+    logging: true 
   });
 
 sequelize.authenticate().then(() =>{
