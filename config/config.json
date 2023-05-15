@@ -4,14 +4,17 @@
       "host": "127.0.0.1",
       "port": 5432,
       "database": "todolist",
-      "username": "postgres",
-      "password": "pass"
+      "username": null,
+      "password": null
     },
     "production": {
-      "dialect": "postgres",
       "use_env_variable": "DATABASE_URL",
-      "ssl": {
-        "rejectUnauthorized": false
-      }
-    }
+      "dialect": "postgres",
+      "dialectOptions": {
+         "ssl": {
+           "require": true,
+           "rejectUnauthorized": false
+         }
+       }
+     }
   }
