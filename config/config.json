@@ -1,10 +1,10 @@
 {
     "development": {
       "dialect": "postgres",
-      "host": "127.0.0.1",
+      "host": "52.90.178.51",
       "port": 5432,
-      "database": "todolist",
-      "username": null,
+      "database": "dj031hiqu1a9l",
+      "username": "ihktooiwkcfjvu",
       "password": null
     },
     "production": {
