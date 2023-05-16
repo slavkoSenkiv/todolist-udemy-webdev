@@ -11,27 +11,25 @@ const longDate = date.getDate();
 const dayOfWeek = date.getDayOfWeek();
 
 //sequelize boilerplate
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/config/config.json')[env];
+/* const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/config/config.json')[env]; */
+
 const Sequelize = require('sequelize');
 const {DataTypes, Op} = Sequelize;
 
 const sequelize = new Sequelize(
-  process.env.DATABASE_NAME,
-  process.env.DATABASE_USERNAME,
-  process.env.DATABASE_PASSWORD,
-  config,
-  {
-    dialect: 'postgres',
-    freezeTableName: true,
-    logging: true 
+  'postgres://ihktooiwkcfjvu:613b79fcd8b6a1741c9aacbeb4f3d7bd5d55612fe81321608ba292cd7df58ca1@ec2-35-169-9-79.compute-1.amazonaws.com:5432/dj031hiqu1a9l',
+  {dialect: 'postgres'});
+  
+// Test the database connection
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch((error) => {
+    console.error('Unable to connect to the database:', error);
   });
-
-sequelize.authenticate().then(() =>{
-  console.log('connection successful');
-}).catch((err)=>{
-  console.log('error connection to the database');
-});
 
 
 //task model
