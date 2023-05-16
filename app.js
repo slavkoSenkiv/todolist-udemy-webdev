@@ -18,19 +18,15 @@ const config = require(__dirname + '/config/config.json')[env];
 const Sequelize = require('sequelize');
 const {DataTypes, Op} = Sequelize;
 
-let sequelize;
-if (config.use_env_variable){
-  console.log(process.env[config.use_env_variable]);
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-}else{
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
-}
-console.log(config);
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+});
 
   
 // Test the database connection
