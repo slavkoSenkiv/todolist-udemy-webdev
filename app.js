@@ -11,15 +11,27 @@ const longDate = date.getDate();
 const dayOfWeek = date.getDayOfWeek();
 
 //sequelize boilerplate
-/* const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/config/config.json')[env]; */
+const env = process.env.NODE_ENV || 'development';
+console.log(env);
+const config = require(__dirname + '/config/config.json')[env];
 
 const Sequelize = require('sequelize');
 const {DataTypes, Op} = Sequelize;
 
-const sequelize = new Sequelize(
-  'postgres://ihktooiwkcfjvu:613b79fcd8b6a1741c9aacbeb4f3d7bd5d55612fe81321608ba292cd7df58ca1@ec2-35-169-9-79.compute-1.amazonaws.com:5432/dj031hiqu1a9l',
-  {dialect: 'postgres'});
+let sequelize;
+if (config.use_env_variable){
+  console.log(process.env[config.use_env_variable]);
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+}else{
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
+console.log(config);
+
   
 // Test the database connection
 sequelize
